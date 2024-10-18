@@ -1,4 +1,61 @@
-# elm-package generated files
-elm-stuff
-# elm-repl generated files
-repl-temp-*
+# Ignore system and hidden files
+.*
+!.gitignore
+!.github
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Ignore compiled binaries
+*.o
+*.out
+*.exe
+
+# Ignore package management files
+node_modules/
+package-lock.json
+yarn.lock
+
+# Ignore Neovim plugin directories (if you're not managing them with git)
+nvim/plugged/
+nvim/autoload/plug.vim
+
+# Ignore local configuration files that might contain sensitive information
+config.local.sh
+
+# Ignore any generated or downloaded files
+downloads/
+generated/
+
+# Ignore OS specific files
+.DS_Store
+Thumbs.db
+
+# Ignore personal todo lists or notes
+TODO.md
+NOTES.md
+
+# Ignore any sensitive or environment-specific files
+.env
+secrets.sh
+
+# Ignore backup files created by text editors
+*~
+*.bak
+*.backup
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore any local test scripts
+test_local.sh
