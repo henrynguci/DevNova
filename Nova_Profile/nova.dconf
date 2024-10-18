@@ -1,0 +1,20 @@
+[/]
+visible-name='Nova'
+use-theme-colors=false
+use-transparent-background=true
+background-transparency-percent=30
+font='JetBrainsMono Nerd Font Mono 12'
+use-system-font=false
+audible-bell=false
+background-color='rgb(2,14,20)'
+foreground-color='rgb(230,225,207)'
+palette=['rgb(59,66,82)', 'rgb(240,113,120)', 'rgb(168,206,147)', 'rgb(229,192,123)', 'rgb(127,187,179)', 'rgb(199,146,234)', 'rgb(137,221,255)', 'rgb(230,225,207)', 'rgb(98,104,128)', 'rgb(255,153,153)', 'rgb(195,232,141)', 'rgb(255,216,102)', 'rgb(137,221,255)', 'rgb(221,189,237)', 'rgb(130,170,255)', 'rgb(255,255,255)']
+bold-color-same-as-fg=true
+bold-color='rgb(230,225,207)'
+cursor-colors-set=true
+cursor-background-color='rgb(230,225,207)'
+cursor-foreground-color='rgb(2,14,20)'
+highlight-colors-set=true
+highlight-background-color='rgb(59,66,82)'
+highlight-foreground-color='rgb(230,225,207)'
+
