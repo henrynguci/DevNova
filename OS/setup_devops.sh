@@ -539,63 +539,31 @@ alias grh='git reset --hard'
 alias gst='git stash'
 alias gstp='git stash pop'
 
-# === Git Conventional Commits ===
-# Feature commits
-alias gfeat='git commit -m "feat: "'
-alias gfix='git commit -m "fix: "'
-alias gref='git commit -m "refactor: "'
-alias gperf='git commit -m "perf: "'
-alias gstyle='git commit -m "style: "'
-alias gtest='git commit -m "test: "'
-alias gdocs='git commit -m "docs: "'
-alias gbuild='git commit -m "build: "'
-alias gci='git commit -m "ci: "'
-alias gchore='git commit -m "chore: "'
+# === Git Conventional Commit Functions ===
+unalias gfeat 2>/dev/null:
+unalias gfix 2>/dev/null
+unalias gref 2>/dev/null
+unalias gperf 2>/dev/null
+unalias gstyle 2>/dev/null
+unalias gtest 2>/dev/null
+unalias gdocs 2>/dev/null
+unalias gbuild 2>/dev/null
+unalias gci 2>/dev/null
+unalias gchore 2>/dev/null
+unalias grevert 2>/dev/null
 
-# Interactive commit with conventional types
-alias gcommit='_git_conventional_commit'
+gfeat()   { git commit -m "feat: $*"; }
+gfix()    { git commit -m "fix: $*"; }
+gref()    { git commit -m "refactor: $*"; }
+gperf()   { git commit -m "perf: $*"; }
+gstyle()  { git commit -m "style: $*"; }
+gtest()   { git commit -m "test: $*"; }
+gdocs()   { git commit -m "docs: $*"; }
+gbuild()  { git commit -m "build: $*"; }
+gci()     { git commit -m "ci: $*"; }
+gchore()  { git commit -m "chore: $*"; }
+grevert() { git commit -m "revert: $*"; }
 
-# Git conventional commit function
-_git_conventional_commit() {
-    echo "Select commit type:"
-    echo "1) feat     - A new feature"
-    echo "2) fix      - A bug fix"
-    echo "3) docs     - Documentation only changes"
-    echo "4) style    - Changes that do not affect the meaning of the code"
-    echo "5) refactor - A code change that neither fixes a bug nor adds a feature"
-    echo "6) perf     - A code change that improves performance"
-    echo "7) test     - Adding missing tests or correcting existing tests"
-    echo "8) build    - Changes that affect the build system or external dependencies"
-    echo "9) ci       - Changes to our CI configuration files and scripts"
-    echo "10) chore   - Other changes that don't modify src or test files"
-    echo "11) revert  - Reverts a previous commit"
-
-    read -p "Enter choice (1-11): " choice
-
-    case \$choice in
-        1) type="feat" ;;
-        2) type="fix" ;;
-        3) type="docs" ;;
-        4) type="style" ;;
-        5) type="refactor" ;;
-        6) type="perf" ;;
-        7) type="test" ;;
-        8) type="build" ;;
-        9) type="ci" ;;
-        10) type="chore" ;;
-        11) type="revert" ;;
-        *) echo "Invalid choice"; return 1 ;;
-    esac
-
-    read -p "Enter scope (optional, press enter to skip): " scope
-    read -p "Enter commit message: " message
-
-    if [ -n "\$scope" ]; then
-        git commit -m "\$type(\$scope): \$message"
-    else
-        git commit -m "\$type: \$message"
-    fi
-}
 
 # === Terraform Aliases ===
 alias tf='terraform'
