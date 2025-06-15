@@ -23,7 +23,7 @@ install_neovim() {
 # Hàm cài đặt Nova Profile
 install_nova_profile() {
     echo "Đang cài đặt Nova Profile cho Terminal..."
-    bash ./Nova_Profile/novaprofile.sh
+    bash ./Nova_Profile/moiprofile.sh
 }
 
 # Hàm cài đặt môi trường DevOps
