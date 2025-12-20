@@ -27,75 +27,112 @@ declare -a selected_options=()
 
 show_banner() {
     clear
+    echo -e "${LOG_PURPLE}"
     cat << "EOF"
-╔══════════════════════════════════════════════════════════════╗
-║                        DevNova v2.0                          ║
-║            Ubuntu DevOps Environment Setup                   ║
-╚══════════════════════════════════════════════════════════════╝
+    ____             _   __                 
+   / __ \___  _   __/ | / /__ _   ______ _ 
+  / / / / _ \| | / /  |/ / _ \ | / / __ `/
+ / /_/ /  __/ |/ / /|  /  __/ |/ / /_/ / 
+/_____/\___/|___/_/ |_/\___/|___/\__,_/  
+                                          
 EOF
+    echo -e "${LOG_NC}"
+    echo -e "${LOG_CYAN}Ubuntu DevOps Environment Setup v2.0${LOG_NC}"
+    echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
     echo
 }
 
 show_menu() {
     show_banner
-    log_header "Installation Menu"
+    
+    echo -e "${LOG_GREEN}📦 CORE DEVOPS TOOLS${LOG_NC}"
+    echo -e "  ${LOG_CYAN}1${LOG_NC})  🔧 System Setup          ${LOG_YELLOW}2${LOG_NC})  🐳 Docker & Compose"
+    echo -e "  ${LOG_CYAN}3${LOG_NC})  ☸️  Kubernetes            ${LOG_YELLOW}4${LOG_NC})  🏗️  Terraform"
+    echo -e "  ${LOG_CYAN}5${LOG_NC})  🤖 Ansible              ${LOG_YELLOW}6${LOG_NC})  ☁️  AWS CLI"
     echo
-    echo "  Core DevOps Tools:"
-    echo "    1) System Setup"
-    echo "    2) Docker & Docker Compose"
-    echo "    3) Kubernetes (kubectl, minikube)"
-    echo "    4) Terraform"
-    echo "    5) Ansible"
-    echo "    6) AWS CLI"
+    
+    echo -e "${LOG_GREEN}💻 DEVELOPMENT TOOLS${LOG_NC}"
+    echo -e "  ${LOG_CYAN}7${LOG_NC})  📗 Node.js & npm        ${LOG_YELLOW}8${LOG_NC})  🐍 Python"
+    echo -e "  ${LOG_CYAN}9${LOG_NC})  ✏️  Neovim + LSP         ${LOG_YELLOW}11${LOG_NC}) 🖥️  WezTerm"
+    echo -e "  ${LOG_CYAN}12${LOG_NC}) 🐋 LazyDocker          ${LOG_YELLOW}13${LOG_NC}) 🌿 LazyGit"
+    echo -e "  ${LOG_CYAN}14${LOG_NC}) 🚀 Rofi"
     echo
-    echo "  Development Tools:"
-    echo "    7) Node.js, npm & Yarn"
-    echo "    8) Python"
-    echo "    9) Neovim with LSP"
-    echo "   11) WezTerm"
-    echo "   12) LazyDocker"
-    echo "   13) LazyGit"
+    
+    echo -e "${LOG_GREEN}🐚 SHELL ENVIRONMENT${LOG_NC}"
+    echo -e "  ${LOG_CYAN}10${LOG_NC}) ⚡ Zsh + Oh My Zsh"
     echo
-    echo "  Shell:"
-    echo "   10) Zsh & Oh My Zsh"
+    
+    echo -e "${LOG_PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
+    echo -e "${LOG_GREEN}⚡ QUICK INSTALL${LOG_NC}"
+    echo -e "  ${LOG_CYAN}20${LOG_NC}) 🚀 All Core Tools (1-6)"
+    echo -e "  ${LOG_CYAN}21${LOG_NC}) 💎 All Dev Tools (7-9,11-14)"
+    echo -e "  ${LOG_CYAN}22${LOG_NC}) 🐚 Shell Environment (10)"
+    echo -e "  ${LOG_CYAN}99${LOG_NC}) 🌟 Everything"
     echo
-    echo "  Quick Install:"
-    echo "   20) All Core Tools (1-6)"
-    echo "   21) All Dev Tools (7-9,11-13)"
-    echo "   22) Shell (10)"
-    echo "   99) Everything"
-    echo
-    echo "  Actions:"
-    echo "    e) Execute selected"
-    echo "    s) Show status"
-    echo "    c) Clear selections"
-    echo "    q) Quit"
+    
+    echo -e "${LOG_PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
+    echo -e "${LOG_GREEN}⚙️  ACTIONS${LOG_NC}"
+    echo -e "  ${LOG_CYAN}e${LOG_NC}) ▶️  Execute selected     ${LOG_YELLOW}s${LOG_NC}) 📊 Show status"
+    echo -e "  ${LOG_CYAN}c${LOG_NC}) 🗑️  Clear selections     ${LOG_YELLOW}q${LOG_NC}) 🚪 Quit"
     echo
     
     if [ ${#selected_options[@]} -gt 0 ]; then
-        echo -e "${LOG_YELLOW}Selected: ${selected_options[*]}${LOG_NC}"
+        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
+        echo -e "${LOG_GREEN}✓ Selected:${LOG_NC} ${LOG_CYAN}${selected_options[*]}${LOG_NC}"
+        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
     else
-        echo "No options selected"
+        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
+        echo -e "${LOG_YELLOW}ℹ️  No options selected${LOG_NC}"
+        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
     fi
     echo
+    echo -ne "${LOG_GREEN}➜${LOG_NC} Enter your choice: "
 }
 
 show_system_status() {
-    log_header "System Status"
+    clear
+    echo -e "${LOG_PURPLE}"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "                    SYSTEM STATUS                           "
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo -e "${LOG_NC}"
+    
+    check_tool() {
+        local name=$1
+        local cmd=$2
+        local version_cmd=$3
+        
+        if command_exists $cmd; then
+            local ver=$(eval $version_cmd 2>/dev/null | head -1)
+            echo -e "  ${LOG_GREEN}✓${LOG_NC} $name: ${LOG_CYAN}$ver${LOG_NC}"
+        else
+            echo -e "  ${LOG_RED}✗${LOG_NC} $name: ${LOG_YELLOW}Not installed${LOG_NC}"
+        fi
+    }
+    
+    echo -e "${LOG_GREEN}📦 Core Tools${LOG_NC}"
+    check_tool "Docker      " docker "docker --version"
+    check_tool "kubectl     " kubectl "kubectl version --client --short"
+    check_tool "Terraform   " terraform "terraform version"
+    check_tool "Ansible     " ansible "ansible --version"
+    check_tool "AWS CLI     " aws "aws --version"
     echo
-    echo "OS: $(detect_os)"
-    echo "Docker: $(command_exists docker && docker --version || echo 'Not installed')"
-    echo "kubectl: $(command_exists kubectl && kubectl version --client --short 2>/dev/null || echo 'Not installed')"
-    echo "Terraform: $(command_exists terraform && terraform version | head -1 || echo 'Not installed')"
-    echo "Ansible: $(command_exists ansible && ansible --version | head -1 || echo 'Not installed')"
-    echo "Node.js: $(command_exists node && node --version || echo 'Not installed')"
-    echo "Python: $(command_exists python3 && python3 --version || echo 'Not installed')"
-    echo "Neovim: $(command_exists nvim && nvim --version | head -1 || echo 'Not installed')"
-    echo "Zsh: $(command_exists zsh && zsh --version || echo 'Not installed')"
-    echo "WezTerm: $(command_exists wezterm && echo 'Installed' || echo 'Not installed')"
-    echo "LazyDocker: $(command_exists lazydocker && echo 'Installed' || echo 'Not installed')"
-    echo "LazyGit: $(command_exists lazygit && echo 'Installed' || echo 'Not installed')"
+    
+    echo -e "${LOG_GREEN}💻 Development${LOG_NC}"
+    check_tool "Node.js     " node "node --version"
+    check_tool "Python      " python3 "python3 --version"
+    check_tool "Neovim      " nvim "nvim --version"
+    check_tool "WezTerm     " wezterm "echo 'Installed'"
+    check_tool "LazyDocker  " lazydocker "echo 'Installed'"
+    check_tool "LazyGit     " lazygit "echo 'Installed'"
+    check_tool "Rofi        " rofi "rofi -version"
     echo
+    
+    echo -e "${LOG_GREEN}🐚 Shell${LOG_NC}"
+    check_tool "Zsh         " zsh "zsh --version"
+    echo
+    
+    echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
     read -p "Press Enter to continue..."
 }
 
@@ -126,7 +163,12 @@ execute_selected_options() {
         return 1
     fi
     
-    log_header "Starting Installation"
+    clear
+    echo -e "${LOG_PURPLE}"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "                  STARTING INSTALLATION                     "
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo -e "${LOG_NC}"
     
     total_steps=${#selected_options[@]}
     current_step=1
@@ -134,6 +176,7 @@ execute_selected_options() {
     ensure_not_root
     
     for option in "${selected_options[@]}"; do
+        echo -e "${LOG_CYAN}[${current_step}/${total_steps}]${LOG_NC}"
         case $option in
             1)  execute_installation "core/system.sh" "System Setup" ;;
             2)  execute_installation "core/docker.sh" "Docker" ;;
@@ -148,14 +191,20 @@ execute_selected_options() {
             11) execute_installation "development/wezterm.sh" "WezTerm" ;;
             12) execute_installation "development/lazydocker.sh" "LazyDocker" ;;
             13) execute_installation "development/lazygit.sh" "LazyGit" ;;
+            14) execute_installation "development/rofi.sh" "Rofi" ;;
         esac
+        ((current_step++))
+        echo
     done
     
     selected_options=()
     
-    log_success "Installation completed!"
-    echo
-    log_info "Installation log saved to: $LOG_FILE"
+    echo -e "${LOG_GREEN}"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "              ✓ INSTALLATION COMPLETED!                     "
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo -e "${LOG_NC}"
+    echo -e "${LOG_CYAN}📝 Log saved to:${LOG_NC} $LOG_FILE"
     echo
     read -p "Press Enter to continue..."
 }
@@ -168,10 +217,10 @@ add_option() {
     local option=$1
     
     if [[ " ${selected_options[@]} " =~ " ${option} " ]]; then
-        log_warning "Option $option already selected"
+        echo -e "${LOG_YELLOW}⚠ Option $option already selected${LOG_NC}"
     else
         selected_options+=("$option")
-        log_success "Added option $option"
+        echo -e "${LOG_GREEN}✓ Added option $option${LOG_NC}"
     fi
 }
 
@@ -179,25 +228,30 @@ handle_choice() {
     local choice=$1
     
     case $choice in
-        [1-9]|1[0-3])
+        [1-9]|1[0-4])
             add_option "$choice"
+            sleep 0.3
             ;;
         20)
             for i in {1..6}; do add_option "$i"; done
-            log_success "Selected all core tools"
+            echo -e "${LOG_GREEN}✓ Selected all core tools${LOG_NC}"
+            sleep 0.5
             ;;
         21)
             for i in {7..9}; do add_option "$i"; done
-            for i in {11..13}; do add_option "$i"; done
-            log_success "Selected all development tools"
+            for i in {11..14}; do add_option "$i"; done
+            echo -e "${LOG_GREEN}✓ Selected all development tools${LOG_NC}"
+            sleep 0.5
             ;;
         22)
             add_option "10"
-            log_success "Selected shell tools"
+            echo -e "${LOG_GREEN}✓ Selected shell tools${LOG_NC}"
+            sleep 0.5
             ;;
         99)
-            for i in {1..13}; do add_option "$i"; done
-            log_success "Selected everything"
+            for i in {1..14}; do add_option "$i"; done
+            echo -e "${LOG_GREEN}✓ Selected everything${LOG_NC}"
+            sleep 0.5
             ;;
         e|E)
             execute_selected_options
@@ -207,14 +261,17 @@ handle_choice() {
             ;;
         c|C)
             selected_options=()
-            log_info "Selections cleared"
+            echo -e "${LOG_YELLOW}✓ Selections cleared${LOG_NC}"
+            sleep 0.5
             ;;
         q|Q)
-            log_info "Exiting DevNova installer"
+            clear
+            echo -e "${LOG_CYAN}👋 Thanks for using DevNova!${LOG_NC}"
             exit 0
             ;;
         *)
-            log_error "Invalid choice: $choice"
+            echo -e "${LOG_RED}✗ Invalid choice: $choice${LOG_NC}"
+            sleep 0.5
             ;;
     esac
 }
