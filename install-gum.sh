@@ -1,5 +1,4 @@
 #!/bin/bash
-# Removed set -euo pipefail to handle errors gracefully
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/scripts/utils/logger.sh"
@@ -22,16 +21,10 @@ show_banner() {
 }
 
 select_tools() {
-    # Display instructions to stderr (not captured)
-    gum style --border double --border-foreground 86 --padding "1 2" --width 60 \
-        "Select tools to install" \
-        "" \
-        "Use TAB to select multiple items" \
-        "Press ENTER when done" >&2
+    gum style --foreground 86 "Select tools (TAB to select, ENTER to confirm):" >&2
     echo >&2
     
-    # Capture only gum filter output
-    local selected=$(gum filter --no-limit --indicator ">" --placeholder "Type to search..." \
+    local selected=$(gum filter --no-limit --height 20 --indicator ">" --placeholder "Type to search..." \
         "System Setup" \
         "Docker" \
         "Kubernetes" \
@@ -46,14 +39,11 @@ select_tools() {
         "LazyDocker" \
         "LazyGit" \
         "Rofi" \
-        "Gum")
+        "Gum" \
+        "btop")
     
     if [ -z "$selected" ]; then
-        echo >&2
-        gum style --foreground 214 "⚠ No tools selected" >&2
-        echo >&2
-        gum style --foreground 242 "Press ENTER to exit..." >&2
-        read
+        gum style --foreground 214 "No tools selected" >&2
         exit 0
     fi
     
@@ -64,27 +54,20 @@ confirm_installation() {
     local tools=$1
     
     echo
-    gum style --foreground 86 --bold "Selected tools:"
+    gum style --foreground 86 --bold "Selected:"
     echo "$tools" | while IFS= read -r tool; do
         [ -z "$tool" ] && continue
-        echo "  • $tool"
+        echo "  - $tool"
     done
     echo
     
-    gum style --foreground 212 "Proceed with installation?"
-    echo
-    
-    echo -n "Type 'yes' to continue: "
+    echo -n "Install? (yes/no): "
     read answer
     
     if [[ "$answer" != "yes" && "$answer" != "YES" && "$answer" != "Yes" ]]; then
-        echo
-        gum style --foreground 214 "Installation cancelled."
+        gum style --foreground 214 "Cancelled."
         exit 0
     fi
-    
-    echo
-    gum style --foreground 86 "✓ Starting installation..."
 }
 
 install_tools() {
@@ -102,87 +85,84 @@ install_tools() {
         
         case "$tool" in
             "System Setup")
-                gum spin --spinner dot --title "Installing system tools..." -- bash "$SCRIPT_DIR/scripts/core/system.sh" || true
+                bash "$SCRIPT_DIR/scripts/core/system.sh"
                 ;;
             "Docker")
-                gum spin --spinner dot --title "Installing Docker..." -- bash "$SCRIPT_DIR/scripts/core/docker.sh" || true
+                bash "$SCRIPT_DIR/scripts/core/docker.sh"
                 ;;
             "Kubernetes")
-                gum spin --spinner dot --title "Installing Kubernetes..." -- bash "$SCRIPT_DIR/scripts/core/kubernetes.sh" || true
+                bash "$SCRIPT_DIR/scripts/core/kubernetes.sh"
                 ;;
             "Terraform")
-                gum spin --spinner dot --title "Installing Terraform..." -- bash "$SCRIPT_DIR/scripts/core/terraform.sh" || true
+                bash "$SCRIPT_DIR/scripts/core/terraform.sh"
                 ;;
             "Ansible")
-                gum spin --spinner dot --title "Installing Ansible..." -- bash "$SCRIPT_DIR/scripts/core/ansible.sh" || true
+                bash "$SCRIPT_DIR/scripts/core/ansible.sh"
                 ;;
             "AWS CLI")
-                gum spin --spinner dot --title "Installing AWS CLI..." -- bash "$SCRIPT_DIR/scripts/core/aws.sh" || true
+                bash "$SCRIPT_DIR/scripts/core/aws.sh"
                 ;;
             "Node.js")
-                gum spin --spinner dot --title "Installing Node.js..." -- bash "$SCRIPT_DIR/scripts/development/nodejs.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/nodejs.sh"
                 ;;
             "Python")
-                gum spin --spinner dot --title "Installing Python..." -- bash "$SCRIPT_DIR/scripts/development/python.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/python.sh"
                 ;;
             "Neovim")
-                gum spin --spinner dot --title "Installing Neovim..." -- bash "$SCRIPT_DIR/scripts/development/neovim.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/neovim.sh"
                 ;;
             "Zsh")
-                gum spin --spinner dot --title "Installing Zsh..." -- bash "$SCRIPT_DIR/scripts/shell/zsh.sh" || true
+                bash "$SCRIPT_DIR/scripts/shell/zsh.sh"
                 ;;
             "WezTerm")
-                gum spin --spinner dot --title "Installing WezTerm..." -- bash "$SCRIPT_DIR/scripts/development/wezterm.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/wezterm.sh"
                 ;;
             "LazyDocker")
-                gum spin --spinner dot --title "Installing LazyDocker..." -- bash "$SCRIPT_DIR/scripts/development/lazydocker.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/lazydocker.sh"
                 ;;
             "LazyGit")
-                gum spin --spinner dot --title "Installing LazyGit..." -- bash "$SCRIPT_DIR/scripts/development/lazygit.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/lazygit.sh"
                 ;;
             "Rofi")
-                gum spin --spinner dot --title "Installing Rofi..." -- bash "$SCRIPT_DIR/scripts/development/rofi.sh" || true
+                bash "$SCRIPT_DIR/scripts/development/rofi.sh"
                 ;;
             "Gum")
-                gum style --foreground 86 "✓ Gum already installed"
+                echo "Already installed"
+                ;;
+            "btop")
+                bash "$SCRIPT_DIR/scripts/development/btop.sh"
                 ;;
         esac
         
-        echo "✓ $tool done"
+        echo "Done: $tool"
     done
 }
 
 show_completion() {
+    echo
     gum style \
         --foreground 86 --border-foreground 86 --border double \
         --align center --width 60 --margin "1 2" --padding "2 4" \
-        '✓ Installation Complete!' \
-        '' \
-        'Your DevOps environment is ready!' \
+        'Installation Complete!' \
         '' \
         'Next steps:' \
-        '  • Copy configs: cp -r config/* ~/.config/' \
-        '  • Start Zsh: zsh' \
-        '  • Enjoy your new setup! 🚀'
+        '  cp -r config/* ~/.config/' \
+        '  zsh'
 }
 
 main() {
-    # Install Gum only mode
     if [[ "${1:-}" == "--install-gum-only" ]]; then
         bash "$SCRIPT_DIR/scripts/development/gum.sh"
         exit 0
     fi
     
-    # Check not running as root
     if [ "$EUID" -eq 0 ]; then
-        log_error "Please do not run this script as root"
+        echo "Do not run as root"
         exit 1
     fi
     
-    # Check Gum
-    if ! command_exists gum; then
-        echo "Gum is not installed. Install it first:"
-        echo "  sudo $0 --install-gum-only"
+    if ! command -v gum &> /dev/null; then
+        echo "Gum not installed. Run: sudo $0 --install-gum-only"
         exit 1
     fi
     
@@ -190,10 +170,7 @@ main() {
     
     local selected_tools=$(select_tools)
     confirm_installation "$selected_tools"
-    
-    echo
     install_tools "$selected_tools"
-    
     show_completion
 }
 
