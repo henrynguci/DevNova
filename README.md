@@ -45,24 +45,6 @@ The installer features:
 - Automatic configuration deployment
 - Auto-start Zsh after completion
 
-## Available Tools
-
-- System Setup
-- Docker
-- Kubernetes
-- Terraform
-- Ansible
-- AWS CLI
-- Node.js
-- Python
-- Neovim
-- Zsh
-- WezTerm
-- LazyDocker
-- LazyGit
-- Rofi
-- Gum
-- btop
 
 ## License
 
