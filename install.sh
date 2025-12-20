@@ -143,11 +143,17 @@ show_completion() {
     gum style \
         --foreground 86 --border-foreground 86 --border double \
         --align center --width 60 --margin "1 2" --padding "2 4" \
-        'Installation Complete!' \
-        '' \
-        'Next steps:' \
-        '  cp -r config/* ~/.config/' \
-        '  zsh'
+        'Installation Complete!'
+    
+    echo
+    echo "Copying configs..."
+    mkdir -p ~/.config
+    cp -r "$SCRIPT_DIR/config/"* ~/.config/ 2>/dev/null || true
+    echo "Done"
+    
+    echo
+    echo "Starting zsh..."
+    exec zsh
 }
 
 main() {
