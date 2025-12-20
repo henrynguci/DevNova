@@ -2,6 +2,8 @@
 .*
 !.gitignore
 !.github
+# Allow config files in configs directory
+!configs/**/*
 
 # Ignore log files
 *.log
@@ -16,6 +18,19 @@
 *.o
 *.out
 *.exe
+
+# Ignore downloaded binaries directory
+bin/
+!bin/.gitkeep
+
+# Ignore specific binary files (kubectl, minikube, etc.)
+kubectl
+kubectl-*
+minikube
+minikube-*
+*.deb
+*.rpm
+*.gpg
 
 # Ignore package management files
 node_modules/
@@ -59,3 +74,7 @@ __pycache__/
 
 # Ignore any local test scripts
 test_local.sh
+
+# Ignore installation logs
+*.install.log
+.devnova-install.log
