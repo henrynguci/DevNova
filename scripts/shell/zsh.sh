@@ -111,12 +111,23 @@ EOF
     # Source aliases if the file exists
     local aliases_file="$SCRIPT_DIR/scripts/shell/aliases.sh"
     if [ -f "$aliases_file" ]; then
-        if ! grep -q "source.*aliases.sh" "$zshrc"; then
+        if ! grep -q "aliases.sh" "$zshrc"; then
             echo "" >> "$zshrc"
-            echo "# Source DevNova aliases" >> "$zshrc"
+            echo "# DevNova aliases" >> "$zshrc"
             echo "[ -f \"$aliases_file\" ] && source \"$aliases_file\"" >> "$zshrc"
             log_info "Added aliases source to .zshrc"
         fi
+    fi
+    
+    # Also copy aliases to a standard location
+    mkdir -p "$HOME/.config/devnova"
+    cp "$aliases_file" "$HOME/.config/devnova/aliases.sh"
+    
+    # Add to zshrc if not already there
+    if ! grep -q ".config/devnova/aliases.sh" "$zshrc"; then
+        echo "" >> "$zshrc"
+        echo "# DevNova aliases (from .config)" >> "$zshrc"
+        echo "[ -f \"\$HOME/.config/devnova/aliases.sh\" ] && source \"\$HOME/.config/devnova/aliases.sh\"" >> "$zshrc"
     fi
     
     log_success ".zshrc configured"

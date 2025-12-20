@@ -45,45 +45,60 @@ EOF
 show_menu() {
     show_banner
     
-    echo -e "${LOG_GREEN}📦 CORE DEVOPS TOOLS${LOG_NC}"
-    echo -e "  ${LOG_CYAN}1${LOG_NC})  🔧 System Setup          ${LOG_YELLOW}2${LOG_NC})  🐳 Docker & Compose"
-    echo -e "  ${LOG_CYAN}3${LOG_NC})  ☸️  Kubernetes            ${LOG_YELLOW}4${LOG_NC})  🏗️  Terraform"
-    echo -e "  ${LOG_CYAN}5${LOG_NC})  🤖 Ansible              ${LOG_YELLOW}6${LOG_NC})  ☁️  AWS CLI"
+    echo -e "${LOG_PURPLE}┌─────────────────────────────────────────────────────────────┐${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_GREEN}📦 CORE DEVOPS TOOLS${LOG_NC}                                      ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}├─────────────────────────────────────────────────────────────┤${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[1]${LOG_NC} 🔧 System Setup      ${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[2]${LOG_NC} 🐳 Docker & Compose  ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[3]${LOG_NC} ☸️  Kubernetes        ${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[4]${LOG_NC} 🏗️  Terraform         ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[5]${LOG_NC} 🤖 Ansible           ${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[6]${LOG_NC} ☁️  AWS CLI           ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}└─────────────────────────────────────────────────────────────┘${LOG_NC}"
     echo
     
-    echo -e "${LOG_GREEN}💻 DEVELOPMENT TOOLS${LOG_NC}"
-    echo -e "  ${LOG_CYAN}7${LOG_NC})  📗 Node.js & npm        ${LOG_YELLOW}8${LOG_NC})  🐍 Python"
-    echo -e "  ${LOG_CYAN}9${LOG_NC})  ✏️  Neovim + LSP         ${LOG_YELLOW}11${LOG_NC}) 🖥️  WezTerm"
-    echo -e "  ${LOG_CYAN}12${LOG_NC}) 🐋 LazyDocker          ${LOG_YELLOW}13${LOG_NC}) 🌿 LazyGit"
-    echo -e "  ${LOG_CYAN}14${LOG_NC}) 🚀 Rofi"
+    echo -e "${LOG_PURPLE}┌─────────────────────────────────────────────────────────────┐${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_GREEN}💻 DEVELOPMENT TOOLS${LOG_NC}                                     ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}├─────────────────────────────────────────────────────────────┤${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[7]${LOG_NC} 📗 Node.js & npm     ${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[8]${LOG_NC} 🐍 Python            ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[9]${LOG_NC} ✏️  Neovim + LSP      ${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[11]${LOG_NC} 🖥️  WezTerm          ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[12]${LOG_NC} 🐋 LazyDocker       ${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[13]${LOG_NC} 🌿 LazyGit          ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[14]${LOG_NC} 🚀 Rofi             ${LOG_PURPLE}│${LOG_NC}                          ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}└─────────────────────────────────────────────────────────────┘${LOG_NC}"
     echo
     
-    echo -e "${LOG_GREEN}🐚 SHELL ENVIRONMENT${LOG_NC}"
-    echo -e "  ${LOG_CYAN}10${LOG_NC}) ⚡ Zsh + Oh My Zsh"
+    echo -e "${LOG_PURPLE}┌─────────────────────────────────────────────────────────────┐${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_GREEN}🐚 SHELL ENVIRONMENT${LOG_NC}                                     ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}├─────────────────────────────────────────────────────────────┤${LOG_NC}"
+    echo -e "${LOG_PURPLE}│${LOG_NC}  ${LOG_CYAN}[10]${LOG_NC} ⚡ Zsh + Oh My Zsh + Aliases                       ${LOG_PURPLE}│${LOG_NC}"
+    echo -e "${LOG_PURPLE}└─────────────────────────────────────────────────────────────┘${LOG_NC}"
     echo
     
-    echo -e "${LOG_PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
-    echo -e "${LOG_GREEN}⚡ QUICK INSTALL${LOG_NC}"
-    echo -e "  ${LOG_CYAN}20${LOG_NC}) 🚀 All Core Tools (1-6)"
-    echo -e "  ${LOG_CYAN}21${LOG_NC}) 💎 All Dev Tools (7-9,11-14)"
-    echo -e "  ${LOG_CYAN}22${LOG_NC}) 🐚 Shell Environment (10)"
-    echo -e "  ${LOG_CYAN}99${LOG_NC}) 🌟 Everything"
+    echo -e "${LOG_YELLOW}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${LOG_NC}"
+    echo -e "${LOG_YELLOW}┃${LOG_NC}  ${LOG_GREEN}⚡ QUICK INSTALL${LOG_NC}                                          ${LOG_YELLOW}┃${LOG_NC}"
+    echo -e "${LOG_YELLOW}┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫${LOG_NC}"
+    echo -e "${LOG_YELLOW}┃${LOG_NC}  ${LOG_CYAN}[20]${LOG_NC} 🚀 All Core Tools ${LOG_YELLOW}(1-6)${LOG_NC}                          ${LOG_YELLOW}┃${LOG_NC}"
+    echo -e "${LOG_YELLOW}┃${LOG_NC}  ${LOG_CYAN}[21]${LOG_NC} 💎 All Dev Tools ${LOG_YELLOW}(7-9,11-14)${LOG_NC}                     ${LOG_YELLOW}┃${LOG_NC}"
+    echo -e "${LOG_YELLOW}┃${LOG_NC}  ${LOG_CYAN}[22]${LOG_NC} 🐚 Shell Environment ${LOG_YELLOW}(10)${LOG_NC}                        ${LOG_YELLOW}┃${LOG_NC}"
+    echo -e "${LOG_YELLOW}┃${LOG_NC}  ${LOG_CYAN}[99]${LOG_NC} 🌟 Everything ${LOG_YELLOW}(All)${LOG_NC}                              ${LOG_YELLOW}┃${LOG_NC}"
+    echo -e "${LOG_YELLOW}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${LOG_NC}"
     echo
     
-    echo -e "${LOG_PURPLE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
-    echo -e "${LOG_GREEN}⚙️  ACTIONS${LOG_NC}"
-    echo -e "  ${LOG_CYAN}e${LOG_NC}) ▶️  Execute selected     ${LOG_YELLOW}s${LOG_NC}) 📊 Show status"
-    echo -e "  ${LOG_CYAN}c${LOG_NC}) 🗑️  Clear selections     ${LOG_YELLOW}q${LOG_NC}) 🚪 Quit"
+    echo -e "${LOG_BLUE}┌─────────────────────────────────────────────────────────────┐${LOG_NC}"
+    echo -e "${LOG_BLUE}│${LOG_NC}  ${LOG_GREEN}⚙️  ACTIONS${LOG_NC}                                                ${LOG_BLUE}│${LOG_NC}"
+    echo -e "${LOG_BLUE}├─────────────────────────────────────────────────────────────┤${LOG_NC}"
+    echo -e "${LOG_BLUE}│${LOG_NC}  ${LOG_GREEN}[e]${LOG_NC} ▶️  Execute selected  ${LOG_BLUE}│${LOG_NC}  ${LOG_GREEN}[s]${LOG_NC} 📊 Show status      ${LOG_BLUE}│${LOG_NC}"
+    echo -e "${LOG_BLUE}│${LOG_NC}  ${LOG_GREEN}[c]${LOG_NC} 🗑️  Clear selections  ${LOG_BLUE}│${LOG_NC}  ${LOG_GREEN}[q]${LOG_NC} 🚪 Quit             ${LOG_BLUE}│${LOG_NC}"
+    echo -e "${LOG_BLUE}└─────────────────────────────────────────────────────────────┘${LOG_NC}"
     echo
     
     if [ ${#selected_options[@]} -gt 0 ]; then
-        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
-        echo -e "${LOG_GREEN}✓ Selected:${LOG_NC} ${LOG_CYAN}${selected_options[*]}${LOG_NC}"
-        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
+        echo -e "${LOG_GREEN}┌─────────────────────────────────────────────────────────────┐${LOG_NC}"
+        echo -e "${LOG_GREEN}│${LOG_NC} ✓ Selected: ${LOG_CYAN}${selected_options[*]}${LOG_NC}"
+        for ((i=0; i<$((60 - 13 - ${#selected_options[*]})); i++)); do echo -n " "; done
+        echo -e "${LOG_GREEN}│${LOG_NC}"
+        echo -e "${LOG_GREEN}└─────────────────────────────────────────────────────────────┘${LOG_NC}"
     else
-        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
-        echo -e "${LOG_YELLOW}ℹ️  No options selected${LOG_NC}"
-        echo -e "${LOG_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${LOG_NC}"
+        echo -e "${LOG_YELLOW}┌─────────────────────────────────────────────────────────────┐${LOG_NC}"
+        echo -e "${LOG_YELLOW}│${LOG_NC} ℹ️  No options selected yet                               ${LOG_YELLOW}│${LOG_NC}"
+        echo -e "${LOG_YELLOW}└─────────────────────────────────────────────────────────────┘${LOG_NC}"
     fi
     echo
     echo -ne "${LOG_GREEN}➜${LOG_NC} Enter your choice: "

@@ -2,8 +2,8 @@
 .*
 !.gitignore
 !.github
-# Allow config files in configs directory
-!configs/**/*
+# Allow config files in config directory
+!config/**/*
 
 # Ignore log files
 *.log

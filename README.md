@@ -58,15 +58,14 @@ devnova/
 │   ├── core/
 │   ├── development/
 │   └── shell/
-└── configs/
-    └── .config/
+└── config/
 ```
 
 ## Post-Installation
 
 ```bash
 # Apply configs
-cp -r configs/.config/* ~/.config/
+cp -r config/* ~/.config/
 
 # Start Zsh
 zsh
