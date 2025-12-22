@@ -28,8 +28,6 @@
   <a href="#-license">License</a>
 </p>
 
-![screenshot](screenshot/menu_install.png)
-
 ---
 
 ## 📑 Table of Contents
@@ -88,28 +86,42 @@ Choose your role and DevNova will automatically suggest the appropriate toolset:
 
 DevNova supports installation of 17+ popular development tools:
 
-**Core Infrastructure:**
-- Docker & Docker Compose
-- Kubernetes (kubectl, minikube, helm)
-- Terraform
-- Ansible
-- AWS CLI
-
-**Development Tools:**
-- Node.js (via NVM)
-- Python (via pyenv)
-- Neovim with optimized configuration
-- WezTerm terminal emulator
-- Monaspace Fonts
-
-**Productivity Tools:**
-- Zsh with Oh My Zsh
-- LazyDocker - Docker UI in terminal
-- LazyGit - Git UI in terminal
-- Gum - CLI interaction tool
-- btop - System monitor
-- Bat with Tokyo Night theme
-- Unclutter - Auto hide mouse cursor
+<table align="center">
+  <tr>
+    <td valign="top" width="33%">
+      <strong>Core Infrastructure:</strong>
+      <ul>
+        <li>Docker & Docker Compose</li>
+        <li>Kubernetes (kubectl, minikube, helm)</li>
+        <li>Terraform</li>
+        <li>Ansible</li>
+        <li>AWS CLI</li>
+      </ul>
+    </td>
+    <td valign="top" width="33%">
+      <strong>Development Tools:</strong>
+      <ul>
+        <li>Node.js (via NVM)</li>
+        <li>Python (via pyenv)</li>
+        <li>Neovim (Optimized)</li>
+        <li>WezTerm Emulator</li>
+        <li>Monaspace Fonts</li>
+      </ul>
+    </td>
+    <td valign="top" width="33%">
+      <strong>Productivity Tools:</strong>
+      <ul>
+        <li>Zsh & Oh My Zsh</li>
+        <li>LazyDocker (TUI)</li>
+        <li>LazyGit (TUI)</li>
+        <li>Gum CLI Tool</li>
+        <li>btop System Monitor</li>
+        <li>Bat (Tokyo Night)</li>
+        <li>Unclutter Utility</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ### 🌺 Installation Complete
 
@@ -133,8 +145,8 @@ DevNova provides an uninstallation script with a similar interface, allowing you
 
 ### Dependencies
 
-- **Go** 1.24.0+
-- **Gum** (will be installed automatically if not present)
+- **Go** 
+- **Gum** 
 
 ---
 
