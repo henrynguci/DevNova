@@ -72,7 +72,7 @@ config.colors = {
 }
 -- Appearance
 config.cursor_blink_rate = 0
-config.window_decorations = "NONE"
+config.window_decorations = "INTEGRATED_BUTTONS | RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
   left = 2,
@@ -84,8 +84,9 @@ config.window_padding = {
 config.max_fps = 240
 config.prefer_egl = true
 config.enable_wayland = true
-config.initial_rows = 30
-config.initial_cols = 150
+config.adjust_window_size_when_changing_font_size = false
+config.use_resize_increments = false
+
 -- Custom commands
 wezterm.on('augment-command-palette', function()
   return commands
