@@ -1,15 +1,3 @@
-<h1 align="center">
-  <br>
-  <pre>
- ███╗   ██╗  ██████╗  ██╗   ██╗  █████╗
- ████╗  ██║ ██╔═══██╗ ██║   ██║ ██╔══██╗
- ██╔██╗ ██║ ██║   ██║ ██║   ██║ ███████║
- ██║╚██╗██║ ██║   ██║ ╚██╗ ██╔╝ ██╔══██║
- ██║ ╚████║ ╚██████╔╝  ╚████╔╝  ██║  ██║
- ╚═╝  ╚═══╝  ╚═════╝    ╚═══╝   ╚═╝  ╚═╝
-  </pre>
-</h1>
-
 <h4 align="center">Automated development environment setup CLI tool for Linux with beautiful interactive interface</h4>
 
 <p align="center">
