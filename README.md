@@ -32,27 +32,26 @@
 
 ## 📑 Table of Contents
 
-- [📖 Overview](#-overview)
-- [✨ Features](#-features)
-  - [🎭 Role-based Installation](#-role-based-installation)
-  - [🛠️ Rich Toolset](#️-rich-toolset)
-  - [🌺 Installation Complete](#-installation-complete)
-  - [🗑️ Easy Uninstallation](#️-easy-uninstallation)
-- [📋 Requirements](#-requirements)
+- [Overview](#overview)
+- [Features](#features)
+  - [Role-based Installation](#role-based-installation)
+  - [Rich Toolset](#rich-toolset)
+  - [Installation Complete](#installation-complete)
+  - [Easy Uninstallation](#easy-uninstallation)
+- [Requirements](#requirements)
   - [Supported Operating Systems](#supported-operating-systems)
   - [Dependencies](#dependencies)
-- [🚀 Installation](#-installation)
-- [📚 Usage](#-usage)
+- [Installation](#installation)
+- [Usage](#usage)
   - [Basic Installation](#basic-installation)
   - [Custom Installation](#custom-installation)
   - [Uninstallation](#uninstallation)
   - [Installed Configurations](#installed-configurations)
-  - [Updating DevNova](#updating-devnova)
-- [🤝 Contributing](#-contributing)
-- [♠️ License](#️-license)
-- [🐑 Author](#-author)
-- [♥️ Acknowledgments](#️-acknowledgments)
-- [💞 Support](#-support)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
+- [Support](#support)
 
 ---
 
@@ -82,7 +81,7 @@ Choose your role and DevNova will automatically suggest the appropriate toolset:
 
 ![Role Confirmation Screen](screenshot/selected_role_screen.png)
 
-### 🛠️ Rich Toolset
+### 🛠️ Toolset
 
 DevNova supports installation of 17+ popular development tools:
 
@@ -221,13 +220,6 @@ After installation, configurations will be copied to `~/.config/`:
 - **btop**: `~/.config/btop/`
 - **Zsh**: `~/.zshrc`, `~/.oh-my-zsh/`
 
-### Updating DevNova
-
-```bash
-cd DevNova
-git pull origin main
-./build.sh
-```
 
 ---
 
