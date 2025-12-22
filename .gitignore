@@ -78,3 +78,10 @@ test_local.sh
 # Ignore installation logs
 *.install.log
 .devnova-install.log
+
+# Go build artifacts
+*.dll
+*.so
+*.dylib
+*.test
+go.work

@@ -10,21 +10,19 @@ show_banner() {
     clear
     gum style \
         --foreground 212 --border-foreground 212 --border double \
-        --align center --width 60 --margin "1 2" --padding "1 2" \
-        '    ____             _   __                 ' \
-        '   / __ \___  _   __/ | / /__ _   ______ _ ' \
-        '  / / / / _ \| | / /  |/ / _ \ | / / __ `/' \
-        ' / /_/ /  __/ |/ / /|  /  __/ |/ / /_/ / ' \
-        '/_____/\___/|___/_/ |_/\___/|___/\__,_/  ' \
+        --align center --width 70 --margin "1 2" --padding "1 2" \
+        ' ███╗   ██╗  ██████╗  ██╗   ██╗  █████╗ ' \
+        ' ████╗  ██║ ██╔═══██╗ ██║   ██║ ██╔══██╗' \
+        ' ██╔██╗ ██║ ██║   ██║ ██║   ██║ ███████║' \
+        ' ██║╚██╗██║ ██║   ██║ ╚██╗ ██╔╝ ██╔══██║' \
+        ' ██║ ╚████║ ╚██████╔╝  ╚████╔╝  ██║  ██║' \
+        ' ╚═╝  ╚═══╝  ╚═════╝    ╚═══╝   ╚═╝  ╚═╝' \
         '' \
-        'Ubuntu DevOps Environment Setup v2.0'
+        'DevNova v2.0 - Cre: Minh Hung'
 }
 
 select_role() {
-    gum style --foreground 86 "Select your development role:" >&2
-    echo >&2
-    
-    local role=$(gum filter --height 10 --indicator ">" --placeholder "Choose your role..." \
+    local role=$(gum filter --no-limit --height 10 --indicator ">" --placeholder "Choose your role..." \
         "DevOps Engineer" \
         "Backend Developer" \
         "Frontend Developer" \
@@ -32,11 +30,6 @@ select_role() {
         "Network Engineer" \
         "Fullstack Developer" \
         "Custom Selection")
-    
-    if [ -z "$role" ]; then
-        gum style --foreground 214 "No role selected" >&2
-        exit 0
-    fi
     
     echo "$role"
 }
@@ -169,21 +162,17 @@ select_tools() {
 
 
 confirm_installation() {
-    local tools=$1
+    local role=$1
     
-    echo
-    gum style --foreground 86 --bold "Selected:"
-    echo "$tools" | while IFS= read -r tool; do
-        [ -z "$tool" ] && continue
-        echo "  - $tool"
-    done
-    echo
+    if [ ! -f "$SCRIPT_DIR/bin/role-confirm" ]; then
+        log_error "role-confirm tool not found. Please run ./build.sh first"
+        exit 1
+    fi
     
-    echo -n "Install? (yes/no): "
-    read answer
-    
-    if [[ "$answer" != "yes" && "$answer" != "YES" && "$answer" != "Yes" ]]; then
-        gum style --foreground 214 "Cancelled."
+    if "$SCRIPT_DIR/bin/role-confirm" "$role"; then
+        return 0
+    else
+        gum style --foreground 214 "Installation cancelled."
         exit 0
     fi
 }
@@ -296,11 +285,61 @@ main() {
         exit 1
     fi
     
-    show_banner
+    while true; do
+        show_banner
+        
+        local selected_role=$(select_role)
+        
+        if [ -z "$selected_role" ]; then
+            gum style --foreground 214 "No role selected"
+            exit 0
+        fi
+        
+        if [ "$selected_role" = "Custom Selection" ]; then
+            local selected_tools=$(get_tools_for_role "$selected_role")
+            
+            if [ -z "$selected_tools" ]; then
+                gum style --foreground 214 "No tools selected"
+                continue
+            fi
+            
+            if [ ! -f "$SCRIPT_DIR/bin/custom-confirm" ]; then
+                log_error "custom-confirm tool not found. Please run ./build.sh first"
+                exit 1
+            fi
+            
+            local IFS=$'\n'
+            local tools_array=($selected_tools)
+            
+            "$SCRIPT_DIR/bin/custom-confirm" "${tools_array[@]}"
+            local confirm_result=$?
+            
+            if [ $confirm_result -eq 0 ]; then
+                install_tools "$selected_tools"
+                break
+            elif [ $confirm_result -eq 2 ]; then
+                continue
+            else
+                gum style --foreground 214 "Installation cancelled."
+                exit 0
+            fi
+        else
+            "$SCRIPT_DIR/bin/role-confirm" "$selected_role"
+            local confirm_result=$?
+            
+            if [ $confirm_result -eq 0 ]; then
+                local selected_tools=$(get_tools_for_role "$selected_role")
+                install_tools "$selected_tools"
+                break
+            elif [ $confirm_result -eq 2 ]; then
+                continue
+            else
+                gum style --foreground 214 "Installation cancelled."
+                exit 0
+            fi
+        fi
+    done
     
-    local selected_tools=$(select_tools)
-    confirm_installation "$selected_tools"
-    install_tools "$selected_tools"
     show_completion
 }
 

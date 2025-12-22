@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e  # Exit on any error
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/scripts/utils/logger.sh"
 source "$SCRIPT_DIR/scripts/utils/common.sh"
@@ -10,21 +12,32 @@ show_banner() {
     clear
     gum style \
         --foreground 196 --border-foreground 196 --border double \
-        --align center --width 60 --margin "1 2" --padding "1 2" \
-        '    ____             _   __                 ' \
-        '   / __ \___  _   __/ | / /__ _   ______ _ ' \
-        '  / / / / _ \| | / /  |/ / _ \ | / / __ `/' \
-        ' / /_/ /  __/ |/ / /|  /  __/ |/ / /_/ / ' \
-        '/_____/\___/|___/_/ |_/\___/|___/\__,_/  ' \
+        --align center --width 70 --margin "1 2" --padding "1 2" \
+        ' ███╗   ██╗  ██████╗  ██╗   ██╗  █████╗ ' \
+        ' ████╗  ██║ ██╔═══██╗ ██║   ██║ ██╔══██╗' \
+        ' ██╔██╗ ██║ ██║   ██║ ██║   ██║ ███████║' \
+        ' ██║╚██╗██║ ██║   ██║ ╚██╗ ██╔╝ ██╔══██║' \
+        ' ██║ ╚████║ ╚██████╔╝  ╚████╔╝  ██║  ██║' \
+        ' ╚═╝  ╚═══╝  ╚═════╝    ╚═══╝   ╚═╝  ╚═╝' \
         '' \
-        'DevNova Uninstaller v2.0'
+        'DevNova v2.0 - Uninstaller'
+}
+
+# Function to handle cleanup on exit
+cleanup_and_exit() {
+    local exit_code=$?
+    # If exit code is 130 (SIGINT/Ctrl+C), clear screen
+    if [ $exit_code -eq 130 ]; then
+        printf "\033[2J\033[H"
+    fi
+    exit $exit_code
 }
 
 select_tools() {
     gum style --foreground 86 "Select tools to uninstall (TAB to select, ENTER to confirm):" >&2
     echo >&2
     
-    local selected=$(gum filter --no-limit --height 20 --indicator ">" --placeholder "Type to search..." \
+    gum filter --no-limit --height 20 --indicator ">" --placeholder "Type to search..." \
         "Docker" \
         "Kubernetes" \
         "Terraform" \
@@ -42,33 +55,41 @@ select_tools() {
         "btop" \
         "Bat Tokyo Night" \
         "Unclutter" \
-        "All DevNova Configs")
-    
-    if [ -z "$selected" ]; then
-        gum style --foreground 214 "No tools selected" >&2
-        exit 0
-    fi
-    
-    echo "$selected"
+        "All DevNova Configs"
 }
 
 confirm_uninstall() {
     local tools=$1
     
+    local tools_trimmed=$(echo "$tools" | tr -d '[:space:]')
+    if [ -z "$tools_trimmed" ]; then
+        exit 0
+    fi
+    
+    local tool_count=$(echo "$tools" | grep -v '^[[:space:]]*$' | wc -l)
+    
+    clear
+    show_banner
     echo
-    gum style --foreground 196 --bold "WARNING: The following will be uninstalled:"
+    gum style --foreground 214 "You have selected $tool_count tool(s) to uninstall."
     echo "$tools" | while IFS= read -r tool; do
         [ -z "$tool" ] && continue
-        echo "  - $tool"
+        echo "	$tool"
     done
     echo
     
-    if gum confirm "Are you sure you want to uninstall these tools?"; then
-        return 0
-    else
-        gum style --foreground 214 "Uninstall cancelled."
+    gum confirm "Are you SURE you want to uninstall these tools?"
+    local confirm_exit=$?
+    
+    if [ $confirm_exit -eq 130 ]; then
+        printf "\033[2J\033[H"
+        exit 130
+    elif [ $confirm_exit -ne 0 ]; then
+        printf "\033[2J\033[H"
         exit 0
     fi
+    
+    return 0
 }
 
 uninstall_docker() {
@@ -427,7 +448,20 @@ main() {
     
     show_banner
     
-    local selected_tools=$(select_tools)
+    local selected_tools
+    selected_tools=$(select_tools)
+    local select_exit=$?
+    
+    if [ $select_exit -eq 130 ]; then
+        printf "\033[2J\033[H"
+        exit 130
+    fi
+    
+    if [ $select_exit -ne 0 ] || [ -z "$selected_tools" ]; then
+        printf "\033[2J\033[H"
+        exit 0
+    fi
+    
     confirm_uninstall "$selected_tools"
     uninstall_tools "$selected_tools"
     show_completion
