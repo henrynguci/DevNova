@@ -148,6 +148,18 @@ set_default_shell() {
     fi
 }
 
+# Install Monaspace fonts
+install_monaspace_fonts() {
+    local monaspace_script="$SCRIPT_DIR/scripts/development/install-monaspace.sh"
+    
+    if [ -f "$monaspace_script" ]; then
+        if confirm "Do you want to install Monaspace fonts?" "y"; then
+            log_info "Installing Monaspace fonts..."
+            bash "$monaspace_script"
+        fi
+    fi
+}
+
 main() {
     log_header "Zsh Setup"
     
@@ -155,6 +167,7 @@ main() {
     install_oh_my_zsh
     install_zsh_plugins
     configure_zshrc
+    install_monaspace_fonts
     set_default_shell
     
     log_success "Zsh setup completed"

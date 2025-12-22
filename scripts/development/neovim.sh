@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# Neovim Installation and Configuration Script
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source "$SCRIPT_DIR/scripts/utils/logger.sh"
 source "$SCRIPT_DIR/scripts/utils/common.sh"
 
-# Install Neovim
 install_neovim() {
     log_header "Installing Neovim"
     
@@ -19,7 +16,6 @@ install_neovim() {
     
     case $os in
         "ubuntu")
-            # Add Neovim PPA for latest version
             sudo add-apt-repository -y ppa:neovim-ppa/unstable
             sudo apt-get update
             sudo apt-get install -y neovim
@@ -42,7 +38,6 @@ install_neovim() {
     log_success "Neovim installed successfully"
 }
 
-# Install ripgrep for telescope
 install_ripgrep() {
     if command_exists rg; then
         log_debug "ripgrep is already installed"
@@ -53,7 +48,6 @@ install_ripgrep() {
     install_package ripgrep
 }
 
-# Install fd for telescope
 install_fd() {
     if command_exists fd || command_exists fdfind; then
         log_debug "fd is already installed"
@@ -74,7 +68,6 @@ install_fd() {
     esac
 }
 
-# Install bat for better file preview
 install_bat() {
     if command_exists bat || command_exists batcat; then
         log_debug "bat is already installed"
@@ -95,26 +88,44 @@ install_bat() {
     esac
 }
 
-# Install LSP servers
 install_lsp_servers() {
     log_header "Installing LSP Servers"
     
-    # TypeScript/JavaScript
     if command_exists npm; then
         log_info "Installing TypeScript LSP..."
         sudo npm install -g typescript-language-server typescript
         
         log_info "Installing ESLint and Prettier LSP..."
         sudo npm install -g vscode-langservers-extracted
+        
+        log_info "Installing Bash LSP..."
+        sudo npm install -g bash-language-server
+        
+        log_info "Installing Docker LSP..."
+        sudo npm install -g dockerfile-language-server-nodejs
+        
+        log_info "Installing YAML LSP..."
+        sudo npm install -g yaml-language-server
+        
+        log_info "Installing JSON LSP..."
+        sudo npm install -g vscode-json-languageserver
     fi
     
-    # Python
     if command_exists python3; then
         log_info "Installing Python LSP (pyright)..."
         python3 -m pip install --user pyright
     fi
     
-    # Lua (for Neovim config)
+    if command_exists go; then
+        log_info "Installing Go LSP..."
+        go install golang.org/x/tools/gopls@latest
+    fi
+    
+    if command_exists cargo; then
+        log_info "Installing Rust Analyzer..."
+        rustup component add rust-analyzer
+    fi
+    
     local os=$(detect_os)
     if [ "$os" = "arch" ]; then
         sudo pacman -S --noconfirm lua-language-server
@@ -125,40 +136,34 @@ install_lsp_servers() {
     log_success "LSP servers installed"
 }
 
-# Setup Neovim configuration
 setup_neovim_config() {
     log_header "Setting up Neovim Configuration"
     
     local nvim_config="$HOME/.config/nvim"
     
-    # Backup existing config
     if [ -d "$nvim_config" ]; then
         create_backup "$nvim_config"
     fi
     
-    # Create config directory
     mkdir -p "$nvim_config"
     
-    # Note: Users should add their own Neovim configuration
     log_info "Neovim config directory created at: $nvim_config"
     log_info "You can add your own init.lua or init.vim configuration"
     
-    # Install Packer (plugin manager)
-    install_packer
+    install_lazy_nvim
 }
 
-# Install Packer plugin manager
-install_packer() {
-    local packer_dir="$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+install_lazy_nvim() {
+    local lazy_dir="$HOME/.local/share/nvim/lazy/lazy.nvim"
     
-    if [ -d "$packer_dir" ]; then
-        log_debug "Packer is already installed"
+    if [ -d "$lazy_dir" ]; then
+        log_debug "Lazy.nvim is already installed"
         return 0
     fi
     
-    log_info "Installing Packer plugin manager..."
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim "$packer_dir"
-    log_success "Packer installed"
+    log_info "Installing Lazy.nvim plugin manager..."
+    git clone --filter=blob:none https://github.com/folke/lazy.nvim.git --branch=stable "$lazy_dir"
+    log_success "Lazy.nvim installed"
 }
 
 main() {

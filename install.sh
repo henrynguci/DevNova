@@ -20,27 +20,144 @@ show_banner() {
         'Ubuntu DevOps Environment Setup v2.0'
 }
 
-select_tools() {
-    gum style --foreground 86 "Select tools (TAB to select, ENTER to confirm):" >&2
+select_role() {
+    gum style --foreground 86 "Select your development role:" >&2
     echo >&2
     
-    local selected=$(gum filter --no-limit --height 20 --indicator ">" --placeholder "Type to search..." \
-        "System Setup" \
-        "Docker" \
-        "Kubernetes" \
-        "Terraform" \
-        "Ansible" \
-        "AWS CLI" \
-        "Node.js" \
-        "Python" \
-        "Neovim" \
-        "Zsh" \
-        "WezTerm" \
-        "LazyDocker" \
-        "LazyGit" \
-        "Rofi" \
-        "Gum" \
-        "btop")
+    local role=$(gum filter --height 10 --indicator ">" --placeholder "Choose your role..." \
+        "DevOps Engineer" \
+        "Backend Developer" \
+        "Frontend Developer" \
+        "Cloud Engineer" \
+        "Network Engineer" \
+        "Fullstack Developer" \
+        "Custom Selection")
+    
+    if [ -z "$role" ]; then
+        gum style --foreground 214 "No role selected" >&2
+        exit 0
+    fi
+    
+    echo "$role"
+}
+
+get_tools_for_role() {
+    local role=$1
+    
+    case "$role" in
+        "DevOps Engineer")
+            echo "System Setup
+Docker
+Kubernetes
+Terraform
+Ansible
+AWS CLI
+Python
+Neovim
+Zsh
+LazyDocker
+LazyGit
+Gum
+btop
+Bat Tokyo Night
+Unclutter"
+            ;;
+        "Backend Developer")
+            echo "System Setup
+Docker
+Node.js
+Python
+Neovim
+Zsh
+LazyDocker
+LazyGit
+Gum
+btop
+Bat Tokyo Night
+Unclutter"
+            ;;
+        "Frontend Developer")
+            echo "System Setup
+Node.js
+Neovim
+Zsh
+LazyGit
+Gum
+btop
+Bat Tokyo Night
+Unclutter"
+            ;;
+        "Cloud Engineer")
+            echo "System Setup
+Docker
+Kubernetes
+Terraform
+AWS CLI
+Python
+Neovim
+Zsh
+LazyDocker
+Gum
+btop
+Bat Tokyo Night
+Unclutter"
+            ;;
+        "Network Engineer")
+            echo "System Setup
+Docker
+Ansible
+Python
+Neovim
+Zsh
+Gum
+btop
+Bat Tokyo Night
+Unclutter"
+            ;;
+        "Fullstack Developer")
+            echo "System Setup
+Docker
+Kubernetes
+Node.js
+Python
+Neovim
+Zsh
+WezTerm
+Monaspace Fonts
+LazyDocker
+LazyGit
+Gum
+btop
+Bat Tokyo Night
+Unclutter"
+            ;;
+        "Custom Selection")
+            gum filter --no-limit --height 20 --indicator ">" --placeholder "Type to search..." \
+                "System Setup" \
+                "Docker" \
+                "Kubernetes" \
+                "Terraform" \
+                "Ansible" \
+                "AWS CLI" \
+                "Node.js" \
+                "Python" \
+                "Neovim" \
+                "Zsh" \
+                "WezTerm" \
+                "Monaspace Fonts" \
+                "LazyDocker" \
+                "LazyGit" \
+                "Gum" \
+                "btop" \
+                "Bat Tokyo Night" \
+                "Unclutter"
+            ;;
+    esac
+}
+
+select_tools() {
+    local role=$(select_role)
+    local selected=$(get_tools_for_role "$role")
     
     if [ -z "$selected" ]; then
         gum style --foreground 214 "No tools selected" >&2
@@ -49,6 +166,7 @@ select_tools() {
     
     echo "$selected"
 }
+
 
 confirm_installation() {
     local tools=$1
@@ -117,20 +235,26 @@ install_tools() {
             "WezTerm")
                 bash "$SCRIPT_DIR/scripts/development/wezterm.sh"
                 ;;
+            "Monaspace Fonts")
+                bash "$SCRIPT_DIR/scripts/development/install-monaspace.sh"
+                ;;
             "LazyDocker")
                 bash "$SCRIPT_DIR/scripts/development/lazydocker.sh"
                 ;;
             "LazyGit")
                 bash "$SCRIPT_DIR/scripts/development/lazygit.sh"
                 ;;
-            "Rofi")
-                bash "$SCRIPT_DIR/scripts/development/rofi.sh"
-                ;;
             "Gum")
                 echo "Already installed"
                 ;;
             "btop")
                 bash "$SCRIPT_DIR/scripts/development/btop.sh"
+                ;;
+            "Bat Tokyo Night")
+                bash "$SCRIPT_DIR/scripts/development/bat-tokyonight.sh"
+                ;;
+            "Unclutter")
+                bash "$SCRIPT_DIR/scripts/development/unclutter.sh"
                 ;;
         esac
         
