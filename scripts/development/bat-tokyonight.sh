@@ -47,9 +47,23 @@ install_bat_tokyonight() {
         log_info "Rebuilding bat cache..."
         command $bat_cmd cache --build
     fi
+
+    BAT_CONFIG_FILE="$(command $bat_cmd --config-dir)/config"
+    BAT_CONFIG_DIR="$(dirname "$BAT_CONFIG_FILE")"
+    [ ! -d "$BAT_CONFIG_DIR" ] && mkdir -p "$BAT_CONFIG_DIR"
+    [ ! -f "$BAT_CONFIG_FILE" ] && touch "$BAT_CONFIG_FILE"
+
+    if grep -q "^--theme=\"tokyonight_night\"" "$BAT_CONFIG_FILE"; then
+        log_info "Tokyo Night theme is already set in bat config"
+    else
+        if grep -q "^--theme=" "$BAT_CONFIG_FILE"; then
+            sed -i 's/^--theme=/# --theme=/' "$BAT_CONFIG_FILE"
+        fi
+        echo '--theme="tokyonight_night"' >> "$BAT_CONFIG_FILE"
+        log_info "Set Tokyo Night theme in $BAT_CONFIG_FILE"
+    fi
     
     log_success "Tokyo Night theme installed for bat"
-    log_info "Use: bat --theme='tokyonight_night' <file>"
 }
 
 main() {

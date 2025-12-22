@@ -29,7 +29,26 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+if vim.fn.executable("xclip") == 1 or vim.fn.executable("xsel") == 1 or vim.fn.executable("wl-copy") == 1 then
+  opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+else
+  -- Fallback to OSC 52 if no clipboard provider found (useful for SSH/WSL/Modern Terminals)
+  -- Neovim 0.10+ has built-in support, but this ensures it's configured for unnamedplus
+  opt.clipboard:append("unnamedplus")
+  if vim.fn.has('nvim-0.10') == 1 then
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+      },
+      paste = {
+        ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+      },
+    }
+  end
+end
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
