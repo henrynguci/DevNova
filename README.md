@@ -197,28 +197,32 @@ sudo ./install.sh --install-gum-only
 
 ## 📚 Usage
 
-### Installation
+### Non-Interactive CLI Usage
 
 ```bash
-./install.sh
+# Install specific role non-interactively
+./devnova --role devops --yes
+
+# Display CLI options
+./devnova --help
 ```
 
-### Uninstallation
+### 🐳 Testing with Docker & Makefile
 
-```bash
-./uninstall.sh
-```
+DevNova includes a Docker + Makefile enterprise testing workflow allowing fast role testing without reinstalling your local OS. 
 
-### Installed Configurations
+After installation completes, **the container automatically drops you into an interactive bash shell** (`devuser@container`) so you can test and interact with all installed tools!
 
-After installation, configurations will be copied to `~/.config/`:
-
-- **Neovim**: `~/.config/nvim/`
-- **WezTerm**: `~/.config/wezterm/`
-- **LazyDocker**: `~/.config/lazydocker/`
-- **LazyGit**: `~/.config/lazygit/`
-- **btop**: `~/.config/btop/`
-- **Zsh**: `~/.zshrc`, `~/.oh-my-zsh/`
+| Goal | Command |
+|---|---|
+| Build test image | `make build` |
+| Test specific role & enter interactive shell | `make test ROLE=devops` |
+| Test Gum interactive TUI menu & enter shell | `make test-interactive` |
+| Re-enter an existing container shell (without re-installing) | `make attach ROLE=devops` |
+| Test all roles automatically (CI/CD) | `make test-all` |
+| Open plain interactive shell in container | `make shell` |
+| Test across multiple distros | `make test-distros` |
+| Clean test containers & images | `make clean` |
 
 
 ---

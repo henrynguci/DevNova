@@ -96,7 +96,7 @@ build_tools() {
 
 # Main execution
 main() {
-    clear
+    clear 2>/dev/null || true
     
     gum style \
         --foreground 212 --border-foreground 212 --border double \
