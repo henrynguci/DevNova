@@ -42,7 +42,7 @@ install_package() {
     
     case $os in
         "ubuntu")
-            sudo apt-get install -y "$package"
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y "$package"
             ;;
         "centos")
             sudo yum install -y "$package"
@@ -163,7 +163,7 @@ update_system() {
     
     case $os in
         "ubuntu")
-            sudo apt-get update
+            sudo DEBIAN_FRONTEND=noninteractive apt-get update
             ;;
         "centos")
             sudo yum check-update || true
@@ -186,6 +186,14 @@ update_system() {
 confirm() {
     local message=$1
     local default=${2:-"n"}
+    
+    if [ ! -t 0 ] || [ "${NON_INTERACTIVE:-0}" -eq 1 ] || [ "${DEBIAN_FRONTEND:-}" = "noninteractive" ]; then
+        if [ "$default" = "y" ]; then
+            return 0
+        else
+            return 1
+        fi
+    fi
     
     if [ "$default" = "y" ]; then
         local prompt="$message [Y/n]: "

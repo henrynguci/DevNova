@@ -251,12 +251,43 @@ install_tools() {
     done
 }
 
+normalize_role() {
+    local input=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr -d ' -_')
+    case "$input" in
+        devops|devopsengineer)
+            echo "DevOps Engineer"
+            ;;
+        backend|backenddeveloper)
+            echo "Backend Developer"
+            ;;
+        frontend|frontenddeveloper)
+            echo "Frontend Developer"
+            ;;
+        cloud|cloudengineer)
+            echo "Cloud Engineer"
+            ;;
+        network|networkengineer)
+            echo "Network Engineer"
+            ;;
+        fullstack|fullstackdeveloper)
+            echo "Fullstack Developer"
+            ;;
+        *)
+            echo "$1"
+            ;;
+    esac
+}
+
 show_completion() {
     echo
-    gum style \
-        --foreground 86 --border-foreground 86 --border double \
-        --align center --width 60 --margin "1 2" --padding "2 4" \
-        'Installation Complete!'
+    if command_exists gum; then
+        gum style \
+            --foreground 86 --border-foreground 86 --border double \
+            --align center --width 60 --margin "1 2" --padding "2 4" \
+            'Installation Complete!'
+    else
+        echo "=== Installation Complete! ==="
+    fi
     
     echo
     echo "Copying configs..."
@@ -264,22 +295,105 @@ show_completion() {
     cp -r "$SCRIPT_DIR/config/"* ~/.config/ 2>/dev/null || true
     echo "Done"
     
+    if [ "${NON_INTERACTIVE:-0}" -eq 1 ] || [ "${NO_EXEC_ZSH:-0}" -eq 1 ] || [ ! -t 0 ]; then
+        echo "Non-interactive run completed successfully."
+        return 0
+    fi
+    
     echo
     echo "Starting zsh..."
     exec zsh
 }
 
 main() {
-    if [[ "${1:-}" == "--install-gum-only" ]]; then
-        bash "$SCRIPT_DIR/scripts/development/gum.sh"
-        exit 0
-    fi
-    
+    local cli_role=""
+    local auto_yes=0
+    local non_interactive=0
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --install-gum-only)
+                bash "$SCRIPT_DIR/scripts/development/gum.sh"
+                exit 0
+                ;;
+            -r|--role)
+                cli_role="$2"
+                shift 2
+                ;;
+            -y|--yes)
+                auto_yes=1
+                shift
+                ;;
+            --non-interactive)
+                non_interactive=1
+                export NON_INTERACTIVE=1
+                shift
+                ;;
+            -h|--help)
+                echo "DevNova - Environment Setup Tool"
+                echo "Usage: ./install.sh [options] or ./devnova [options]"
+                echo ""
+                echo "Options:"
+                echo "  -r, --role <ROLE>      Specify role (devops, backend, frontend, cloud, network, fullstack)"
+                echo "  -y, --yes              Skip TUI confirmation prompt"
+                echo "  --non-interactive      Run non-interactively without launching zsh at the end"
+                echo "  --install-gum-only     Install gum TUI tool only"
+                echo "  -h, --help             Show this help message"
+                exit 0
+                ;;
+            *)
+                echo "Unknown option: $1"
+                exit 1
+                ;;
+        esac
+    done
+
     if [ "$EUID" -eq 0 ]; then
         echo "Do not run as root"
         exit 1
     fi
-    
+
+    # Non-interactive CLI role execution path
+    if [ -n "$cli_role" ]; then
+        local target_role=$(normalize_role "$cli_role")
+        local selected_tools=$(get_tools_for_role "$target_role")
+        
+        if [ -z "$selected_tools" ]; then
+            echo "Error: Invalid or unknown role '$cli_role'"
+            exit 1
+        fi
+
+        echo "=== DevNova Non-Interactive Install ==="
+        echo "Target Role: $target_role"
+        echo "Selected Tools:"
+        echo "$selected_tools"
+        echo "======================================"
+
+        if [ "$auto_yes" -eq 1 ] || [ "$non_interactive" -eq 1 ] || [ ! -t 0 ]; then
+            export NON_INTERACTIVE=1
+            install_tools "$selected_tools"
+            show_completion
+            exit 0
+        else
+            if [ -f "$SCRIPT_DIR/bin/role-confirm" ]; then
+                "$SCRIPT_DIR/bin/role-confirm" "$target_role"
+                local confirm_result=$?
+                if [ $confirm_result -eq 0 ]; then
+                    install_tools "$selected_tools"
+                    show_completion
+                    exit 0
+                else
+                    echo "Installation cancelled."
+                    exit 0
+                fi
+            else
+                install_tools "$selected_tools"
+                show_completion
+                exit 0
+            fi
+        fi
+    fi
+
     if ! command -v gum &> /dev/null; then
         echo "Gum not installed. Run: sudo $0 --install-gum-only"
         exit 1
