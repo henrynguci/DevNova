@@ -10,7 +10,7 @@ source "$SCRIPT_DIR/scripts/utils/common.sh"
 install_system_tools() {
     log_header "Installing Basic System Tools"
     
-    local tools=(curl wget git unzip apt-transport-https ca-certificates gnupg lsb-release build-essential)
+    local tools=(curl wget git unzip apt-transport-https ca-certificates gnupg lsb-release build-essential xclip)
     local os=$(detect_os)
     
     # Update system first
