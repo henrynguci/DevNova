@@ -262,3 +262,23 @@ backup() {
 duh() {
     du -h --max-depth=1 | sort -hr
 }
+
+clip() {
+    if [ -z "$1" ]; then
+        echo "Usage: clip <file>"
+        return 1
+    fi
+    if [ ! -f "$1" ]; then
+        echo "File not found: $1"
+        return 1
+    fi
+    if command -v xclip >/dev/null 2>&1; then
+        cat "$1" | xclip -selection clipboard
+    elif command -v xsel >/dev/null 2>&1; then
+        cat "$1" | xsel --clipboard --input
+    else
+        echo "Install xclip or xsel: sudo apt install xclip"
+        return 1
+    fi
+    echo "Copied: $1"
+}
